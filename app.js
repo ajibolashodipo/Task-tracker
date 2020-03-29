@@ -41,29 +41,50 @@ function getQuote() {
     });
 }
 
-app.get("/", (req, res) => {
-  async function getQuote() {
-    const response = await axios.get("https://favqs.com/api/qotd");
-    return response.data.quote;
-  }
-  getQuote()
-    .then(axiosData => {
-      Task.find({}, (err, data) => {
-        if (err) {
-          console.log(err);
-        } else {
-          const quoteData = {
-            myAuthor: axiosData.author,
-            myQuote: axiosData.body
-          };
-          //console.log(quoteData);
-          res.render("home", { tasks: data, quoteData: quoteData });
-        }
-      });
-    })
-    .catch(e => {
-      console.log("e", e);
-    });
+//my initial get route implementation
+
+// app.get("/", (req, res) => {
+//   async function getQuote() {
+//     const response = await axios.get("https://favqs.com/api/qotd");
+//     return response.data.quote;
+//   }
+//   getQuote()
+//     .then(axiosData => {
+//       Task.find({}, (err, data) => {
+//         if (err) {
+//           console.log(err);
+//         } else {
+//           const quoteData = {
+//             myAuthor: axiosData.author,
+//             myQuote: axiosData.body
+//           };
+//           //console.log(quoteData);
+//           res.render("home", { tasks: data, quoteData: quoteData });
+//         }
+//       });
+//     })
+//     .catch(e => {
+//       console.log("e", e);
+//     });
+// });
+
+async function getQuote() {
+  const response = await axios.get("https://favqs.com/api/qotd");
+
+  const { author, body } = response.data.quote;
+
+  return {
+    myAuthor: author,
+    myQuote: body
+  };
+}
+
+app.get("/", async (req, res) => {
+  const quoteData = await getQuote();
+
+  const tasks = await Task.find();
+
+  res.render("home", { tasks, quoteData });
 });
 
 app.post("/tasks", (req, res) => {

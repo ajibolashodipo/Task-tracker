@@ -1,0 +1,9 @@
+<h1>Edit <%=update.name %></h1>
+
+<form action="/tasks/<%=update._id %>?_method=PUT" method="POST">
+  <h4>Edit <%=update.name %></h4>
+  <input type="text" value="<%=update.name %>" name="name" />
+  <input type="text" value="<%=update.description %>" name="description" />
+  <input type="text" value="<%=update.complete %>" name="complete" />
+  <button>Submit</button>
+</form>

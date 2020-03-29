@@ -1,0 +1,27 @@
+<h1>Make your life yours again. List your tasks for the day</h1>
+<p><%=quoteData.myQuote %>. <em><%=quoteData.myAuthor %></em></p>
+
+<form action="/tasks" method="POST">
+  <h4>Add tasks</h4>
+  <input type="text" placeholder="Enter task" name="name" />
+  <input type="text" placeholder="Describe the task" name="description" />
+  <input type="text" placeholder="Due by?" name="complete" />
+  <button>Submit</button>
+</form>
+
+<h5>------Tasks-----------</h5>
+
+<%tasks.forEach(task=>{ %>
+<li>
+  <%=task.name %>
+  <p><%=task.description %>. Due by <%=task.complete %></p>
+
+  <form action="/tasks/<%=task._id %>/edit " method="GET">
+    <button>Edit</button>
+  </form>
+
+  <form action="/tasks/<%=task._id %>?_method=DELETE" method="POST">
+    <button>DELETE</button>
+  </form>
+</li>
+<%})%>

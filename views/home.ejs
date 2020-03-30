@@ -1,27 +1,94 @@
-<h1>Make your life yours again. List your tasks for the day</h1>
-<p><%=quoteData.myQuote %>. <em><%=quoteData.myAuthor %></em></p>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"
+      integrity="sha256-AdQN98MVZs44Eq2yTwtoKufhnU+uZ7v2kXnD5vqzZVo="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <h1>Make your life yours again. List your tasks for the day</h1>
+    <p><%=quoteData.myQuote %>. <em><%=quoteData.myAuthor %></em></p>
 
-<form action="/tasks" method="POST">
-  <h4>Add tasks</h4>
-  <input type="text" placeholder="Enter task" name="name" />
-  <input type="text" placeholder="Describe the task" name="description" />
-  <input type="text" placeholder="Due by?" name="complete" />
-  <button>Submit</button>
-</form>
+    <form action="/tasks" method="POST" id="info-form">
+      <h4>Add tasks</h4>
+      <input
+        type="text"
+        id="task-name"
+        placeholder="Enter task"
+        name="name"
+        required
+      />
+      <input
+        type="text"
+        placeholder="Describe the task"
+        name="description"
+        required
+      />
 
-<h5>------Tasks-----------</h5>
+      <label for="appt">Due by:</label>
+      <input type="time" id="time-to-complete" name="complete" required />
 
-<%tasks.forEach(task=>{ %>
-<li>
-  <%=task.name %>
-  <p><%=task.description %>. Due by <%=task.complete %></p>
+      <button id="first-submit">Submit</button>
+    </form>
 
-  <form action="/tasks/<%=task._id %>/edit " method="GET">
-    <button>Edit</button>
-  </form>
+    <h2>------TASKS------</h2>
 
-  <form action="/tasks/<%=task._id %>?_method=DELETE" method="POST">
-    <button>DELETE</button>
-  </form>
-</li>
-<%})%>
+    <%tasks.forEach(task=>{ %>
+    <li>
+      <h3><%=task.name %></h3>
+
+      <script>
+        setInterval(function getDuration() {
+          let count = "<%=task.complete %>";
+          let now = moment().format("HH:mm:ss");
+          let splitTime = now.split(":");
+          let nowHours = parseInt(splitTime[0]);
+          let nowMinutes = parseInt(splitTime[1]);
+          let nowSeconds = parseInt(splitTime[2]);
+          //console.log(nowHours, nowMinutes, nowSeconds);
+
+          let duration = moment.duration({
+            hours: nowHours,
+            minutes: nowMinutes,
+            seconds: nowSeconds
+          });
+
+          //console.log(duration);
+          let sub = moment(count, "HH:mm")
+            .subtract(duration)
+            .format("HH:mm:ss");
+          //console.log(sub);
+
+          document.querySelector(".test").textContent = sub;
+        }, 1000);
+      </script>
+
+      <p>
+        <%=task.description %>. Due By <%=task.complete %>. That's in exactly
+        <span class="test"><%=task.duration %></span>
+      </p>
+
+      <form action="/tasks/<%=task._id %>/edit " method="GET">
+        <button>Edit</button>
+      </form>
+
+      <form action="/tasks/<%=task._id %>?_method=DELETE" method="POST">
+        <button>DELETE</button>
+      </form>
+    </li>
+    <%})%>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"
+      integrity="sha256-AdQN98MVZs44Eq2yTwtoKufhnU+uZ7v2kXnD5vqzZVo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

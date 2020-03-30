@@ -3,6 +3,7 @@ const axios = require("axios");
 const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const moment = require("moment");
 
 const app = express();
 
@@ -15,13 +16,15 @@ app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({ extended: false }));
+
 //app.use(bodyParser.json());
 
 //schema
 const taskSchema = new mongoose.Schema({
   name: String,
   description: String,
-  complete: Number
+  complete: String,
+  duration: String
 });
 
 const Task = new mongoose.model("Task", taskSchema);
@@ -83,15 +86,16 @@ app.get("/", async (req, res) => {
   const quoteData = await getQuote();
 
   const tasks = await Task.find();
-
-  res.render("home", { tasks, quoteData });
+  let id = 5;
+  res.render("home", { id, tasks, quoteData });
 });
 
 app.post("/tasks", (req, res) => {
   const formDetail = {
     name: req.body.name,
     description: req.body.description,
-    complete: req.body.complete
+    complete: req.body.complete,
+    duration: getDuration(req.body.complete)
   };
   console.log(formDetail);
   Task.create(formDetail, (err, task) => {
@@ -121,9 +125,10 @@ app.put("/tasks/:id", (req, res) => {
   const formDetail = {
     name: req.body.name,
     description: req.body.description,
-    complete: req.body.complete
+    complete: req.body.complete,
+    duration: getDuration(req.body.complete)
   };
-  console.log(formDetail);
+  //console.log(formDetail);
   Task.findByIdAndUpdate(req.params.id, formDetail, (err, updatedTask) => {
     if (err) {
       console.log(err);
@@ -146,3 +151,23 @@ app.delete("/tasks/:id", (req, res) => {
 app.listen(3000, () => {
   console.log("server ti bere lori port 3000");
 });
+
+function getDuration(time) {
+  let now = moment().format("HH:mm:ss");
+  let splitTime = now.split(":");
+  let nowHours = parseInt(splitTime[0]);
+  let nowMinutes = parseInt(splitTime[1]);
+  let nowSeconds = parseInt(splitTime[2]);
+
+  let duration = moment.duration({
+    hours: nowHours,
+    minutes: nowMinutes,
+    seconds: nowSeconds
+  });
+  let sub = moment(time, "HH:mm")
+    .subtract(duration)
+    .format("HH:mm:ss");
+  console.log(sub);
+  return sub;
+  //e.preventDefault();
+}

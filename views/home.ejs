@@ -1,104 +1,128 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"
-      integrity="sha256-AdQN98MVZs44Eq2yTwtoKufhnU+uZ7v2kXnD5vqzZVo="
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
+<%- include ("./partials/header")%>
+
+<header id="header">
+  <div class="header-container">
     <h1>Make your life yours again. List your tasks for the day</h1>
-    <p><%=quoteData.myQuote %>. <em><%=quoteData.myAuthor %></em></p>
+    <p>"<%=quoteData.myQuote %>" &mdash;<em><%=quoteData.myAuthor %></em></p>
 
     <form action="/tasks" method="POST" id="info-form">
-      <h4>Add tasks</h4>
-      <input
-        type="text"
-        id="task-name"
-        placeholder="Enter task"
-        name="name"
-        required
-      />
-      <input
-        type="text"
-        placeholder="Describe the task"
-        name="description"
-        required
-      />
+      <h4>Enter Task Details</h4>
+      <div class="form-row justify-content-between">
+        <div class="form-group col-md-6">
+          <!-- <label for="inputEmail4">Task Name:</label> -->
+          <input
+            class="form-control"
+            type="text"
+            id="task-name"
+            placeholder="Enter task"
+            name="name"
+            required
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <div class="row justify-content-between">
+            <div class="col-4">
+              <label for="time-to-complete">Due By:</label>
+            </div>
+            <div class="col-8">
+              <input
+                class="form-control"
+                type="time"
+                id="time-to-complete"
+                name="complete"
+                required
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <!-- <label for="exampleFormControlTextarea1">Describe the Task: </label> -->
+        <textarea
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          rows="2"
+          placeholder="Describe the task"
+          name="description"
+          required
+        ></textarea>
+      </div>
 
-      <label for="appt">Due by:</label>
-      <input type="time" id="time-to-complete" name="complete" required />
-
-      <button id="first-submit">Submit</button>
+      <button type="submit" id="first-submit" class="btn btn-primary">
+        Add Task
+      </button>
     </form>
+  </div>
+</header>
 
+<section class="middle-ground">
+  <div class="container">
     <h2>------TASKS------</h2>
+  </div>
+</section>
 
-    <%tasks.forEach(task=>{ %>
-    <li>
-      <h3><%=task.name %></h3>
+<section id="my-tasks">
+  <div class="container">
+    <div class="section-container">
+      <ul>
+        <%tasks.forEach(task=>{ %>
+        <li class="task-container">
+          <h3><%=task.name %></h3>
 
-      <script>
-        function getDuration() {
-          let count = "<%=task.complete %>";
-          let countID = "<%=task._id %>";
-          let now = moment().format("HH:mm:ss");
-          let splitTime = now.split(":");
-          let nowHours = parseInt(splitTime[0]);
-          let nowMinutes = parseInt(splitTime[1]);
-          let nowSeconds = parseInt(splitTime[2]);
-          //console.log(nowHours, nowMinutes, nowSeconds);
+          <script>
+            function getDuration() {
+              let count = "<%=task.complete %>";
+              let countID = "<%=task._id %>";
+              let now = moment().format("HH:mm:ss");
+              let splitTime = now.split(":");
+              let nowHours = parseInt(splitTime[0]);
+              let nowMinutes = parseInt(splitTime[1]);
+              let nowSeconds = parseInt(splitTime[2]);
+              //console.log(nowHours, nowMinutes, nowSeconds);
 
-          let duration = moment.duration({
-            hours: nowHours,
-            minutes: nowMinutes,
-            seconds: nowSeconds
-          });
+              let duration = moment.duration({
+                hours: nowHours,
+                minutes: nowMinutes,
+                seconds: nowSeconds
+              });
 
-          let sub = moment(count, "HH:mm")
-            .subtract(duration)
-            .format("HH:mm:ss");
+              let sub = moment(count, "HH:mm")
+                .subtract(duration)
+                .format("HH:mm:ss");
 
-          // let splitTim = sub.split(":");
-          // let nowHour = parseInt(splitTim[0]);
-          // let nowMinute = parseInt(splitTim[1]);
-          // let nowSecond = parseInt(splitTim[2]);
+              // let splitTim = sub.split(":");
+              // let nowHour = parseInt(splitTim[0]);
+              // let nowMinute = parseInt(splitTim[1]);
+              // let nowSecond = parseInt(splitTim[2]);
 
-          // if (nowHour === 00 && nowMinute === 00 && nowSecond === 00) {
-          //   console.log("workingggggg");
-          //   clearInterval(sdf);
-          //}
-          document.getElementById(countID).textContent = sub;
-        }
+              // if (nowHour === 00 && nowMinute === 00 && nowSecond === 00) {
+              //   console.log("workingggggg");
+              //   clearInterval(sdf);
+              //}
+              document.getElementById(countID).textContent = sub;
+            }
 
-        var sdf = setInterval(getDuration, 1000);
-      </script>
+            var sdf = setInterval(getDuration, 1000);
+          </script>
 
-      <p>
-        <%=task.description %>. Due By <%=task.complete %>. That's in exactly
-        <span id="<%=task._id%>"><%=task.duration %></span>
-      </p>
+          <p>
+            <%=task.description %>. Due By <%=task.complete %>. That's in
+            exactly
+            <span id="<%=task._id%>"><%=task.duration %></span>
+          </p>
 
-      <form action="/tasks/<%=task._id %>/edit " method="GET">
-        <button>Edit</button>
-      </form>
+          <form action="/tasks/<%=task._id %>/edit " method="GET">
+            <button type="submit" class="btn btn-warning">Edit</button>
+          </form>
 
-      <form action="/tasks/<%=task._id %>?_method=DELETE" method="POST">
-        <button>DELETE</button>
-      </form>
-    </li>
-    <%})%>
+          <form action="/tasks/<%=task._id %>?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </li>
+        <%})%>
+      </ul>
+    </div>
+  </div>
+</section>
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"
-      integrity="sha256-AdQN98MVZs44Eq2yTwtoKufhnU+uZ7v2kXnD5vqzZVo="
-      crossorigin="anonymous"
-    ></script>
-    <script src="/app.js"></script>
-  </body>
-</html>
+<%- include ("./partials/footer")%>

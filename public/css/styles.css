@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Manjari", sans-serif;
+}
+html {
+  height: 100%;
+  /* font-family: "Manjari", sans-serif; */
+}
+body {
+  height: 100%;
+  font-family: "Manjari", sans-serif;
+  /* flex: 1 0 auto; */
+}
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+button {
+  margin-bottom: 0.5%;
+}
+.header-container {
+  width: 60%;
+  margin: 2% auto;
+  /* padding-top: 2.5%; */
+  border-radius: 10px;
+  text-align: center;
+}
+.section-container {
+  margin: 2% auto;
+
+  border: 1px solid green;
+}
+.container {
+  width: 60%;
+  margin: 2% auto;
+  /* padding-top: 2.5%; */
+  border-radius: 10px;
+  text-align: center;
+}
+
+.task-container {
+  width: 95%;
+  margin: 2% auto;
+  border: 1px solid blue;
+  border-radius: 10px;
+}

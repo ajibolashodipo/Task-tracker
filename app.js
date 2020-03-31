@@ -97,7 +97,7 @@ app.post("/tasks", (req, res) => {
     complete: req.body.complete,
     duration: getDuration(req.body.complete)
   };
-  console.log(formDetail);
+  //console.log(formDetail);
   Task.create(formDetail, (err, task) => {
     if (err) {
       console.log(err);
@@ -114,7 +114,7 @@ app.get("/tasks/:id/edit", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(data);
+      // console.log(data);
       res.render("edit", { update: data });
     }
   });
@@ -167,6 +167,7 @@ function getDuration(time) {
   let sub = moment(time, "HH:mm")
     .subtract(duration)
     .format("HH:mm:ss");
+  //
   console.log(sub);
   return sub;
   //e.preventDefault();

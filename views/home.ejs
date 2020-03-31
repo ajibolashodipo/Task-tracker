@@ -44,8 +44,9 @@
       <h3><%=task.name %></h3>
 
       <script>
-        setInterval(function getDuration() {
+        function getDuration() {
           let count = "<%=task.complete %>";
+          let countID = "<%=task._id %>";
           let now = moment().format("HH:mm:ss");
           let splitTime = now.split(":");
           let nowHours = parseInt(splitTime[0]);
@@ -59,19 +60,28 @@
             seconds: nowSeconds
           });
 
-          //console.log(duration);
           let sub = moment(count, "HH:mm")
             .subtract(duration)
             .format("HH:mm:ss");
-          //console.log(sub);
 
-          document.querySelector(".test").textContent = sub;
-        }, 1000);
+          // let splitTim = sub.split(":");
+          // let nowHour = parseInt(splitTim[0]);
+          // let nowMinute = parseInt(splitTim[1]);
+          // let nowSecond = parseInt(splitTim[2]);
+
+          // if (nowHour === 00 && nowMinute === 00 && nowSecond === 00) {
+          //   console.log("workingggggg");
+          //   clearInterval(sdf);
+          //}
+          document.getElementById(countID).textContent = sub;
+        }
+
+        var sdf = setInterval(getDuration, 1000);
       </script>
 
       <p>
         <%=task.description %>. Due By <%=task.complete %>. That's in exactly
-        <span class="test"><%=task.duration %></span>
+        <span id="<%=task._id%>"><%=task.duration %></span>
       </p>
 
       <form action="/tasks/<%=task._id %>/edit " method="GET">

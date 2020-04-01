@@ -13,7 +13,7 @@
       </p>
 
       <form action="/tasks" method="POST" id="info-form">
-        <h4>Enter Task Details</h4>
+        <h4 class="task-details">Enter Task Details</h4>
         <div class="form-row justify-content-between">
           <div class="form-group col-md-6">
             <!-- <label for="inputEmail4">Task Name:</label> -->
@@ -29,7 +29,7 @@
           <div class="form-group col-md-4">
             <div class="row justify-content-between">
               <div class="col-4">
-                <label for="time-to-complete">Due By:</label>
+                <label class="due-by" for="time-to-complete">Due By:</label>
               </div>
               <div class="col-8">
                 <input
@@ -75,7 +75,7 @@
   <section id="my-tasks">
     <div class="container">
       <div class="section-container">
-        <div class="card-columns mobile-card-column ">
+        <!-- <div class="card-columns mobile-card-column "> -->
         <div class="card-columns mobile-card-column ">
           <ul>
             <%tasks.forEach(task=>{ %>
@@ -117,18 +117,6 @@
 
                 var sdf = setInterval(getDuration, 1000);
               </script>
-              <!-- 
-            <script>
-              function chooseColour() {
-                let colours = ["info", "dark", "light", "secondary"];
-                let luckyNumber = Math.floor(
-                  Math.random() * colours.length + 1
-                );
-
-                let chosenColour = colours[luckyNumber];
-                return chosenColour;
-              }
-            </script> -->
 
               <div
                 class="card card-grid-mobile text-white bg-info mb-3"
@@ -147,24 +135,25 @@
                       &mdash; Due By <%=task.complete %>.
                     </p>
                   </div>
-                  <div
-                    class="edit-and-delete"
-                    style="display: flex; justify-content: space-evenly;"
-                  >
-                    <form action="/tasks/<%=task._id %>/edit " method="GET">
-                      <button type="submit" class="btn btn-warning">
-                        Edit
-                      </button>
-                    </form>
 
-                    <form
-                      action="/tasks/<%=task._id %>?_method=DELETE"
-                      method="POST"
-                    >
-                      <button type="submit" class="btn btn-danger">
-                        Delete
-                      </button>
-                    </form>
+                  <div class="row justify-content-center edit-and-delete">
+                    <div class="col-12">
+                      <form action="/tasks/<%=task._id %>/edit " method="GET">
+                        <button type="submit" class="btn btn-warning">
+                          Edit
+                        </button>
+                      </form>
+                    </div>
+                    <div class="col-12">
+                      <form
+                        action="/tasks/<%=task._id %>?_method=DELETE"
+                        method="POST"
+                      >
+                        <button type="submit" class="btn btn-danger">
+                          Delete
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>

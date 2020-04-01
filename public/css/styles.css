@@ -30,16 +30,14 @@ ul {
   list-style-type: none;
 }
 .container {
-  width: 60%;
+  width: 70%;
   margin: 2% auto;
-  /* padding-top: 2.5%; */
-  border-radius: 10px;
   text-align: center;
 }
 
 /* header section */
 .header-container {
-  width: 60%;
+  width: 70%;
   margin: 2% auto;
   /* padding-top: 2.5%; */
   border-radius: 10px;
@@ -58,7 +56,9 @@ ul {
 #first-submit {
   margin-bottom: 0.5%;
   width: 100% !important;
-  padding: 2%;
+  padding: 1.5%;
+  /* font-weight: bolder; */
+  /* font-size: 1.2rem; */
 }
 
 /* other section */
@@ -68,11 +68,23 @@ ul {
   /* border: 1px solid green; */
 }
 
+.edit-and-delete button {
+  margin: 1.5% auto;
+}
+
 .task-container {
   width: 95%;
   margin: 2% auto;
   border: 1px solid blue;
   border-radius: 10px;
+}
+
+.task-details {
+  font-weight: bold;
+}
+
+.due-by {
+  font-weight: bold;
 }
 
 .tasks-parent {
@@ -90,7 +102,7 @@ ul {
 }
 
 .edit-form-container {
-  width: 60%;
+  width: 70%;
   margin: 7.5% auto;
   border-radius: 10px;
   text-align: center;
@@ -103,7 +115,7 @@ ul {
 }
 .due-in {
   font-family: "Cormorant Garamond", serif;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .card-header {

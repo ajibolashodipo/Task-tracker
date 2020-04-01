@@ -4,13 +4,14 @@ const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const moment = require("moment");
-
+const dotenv = require("dotenv");
+const { port, databaseURL } = require("./config");
+dotenv.config();
 const app = express();
 
-mongoose.connect("mongodb://127.0.0.1/my_task_app", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+let url = databaseURL || "mongodb://127.0.0.1/my_task_app";
+
+mongoose.connect(url);
 
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
@@ -148,8 +149,8 @@ app.delete("/tasks/:id", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("server ti bere lori port 3000");
+app.listen(port, () => {
+  console.log(`server ti bere lori port ${port}`);
 });
 
 function getDuration(time) {

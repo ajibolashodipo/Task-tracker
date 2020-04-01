@@ -13,7 +13,15 @@ html {
 body {
   height: 100%;
   font-family: "Manjari", sans-serif;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.4)),
+    url(../img/fourth.png);
   /* flex: 1 0 auto; */
+}
+
+.all-content {
+  flex: 1 0 auto;
 }
 ul {
   padding: 0;
@@ -75,4 +83,45 @@ ul {
 
 .card-header {
   background-color: rgba(56, 223, 22, 0.89);
+}
+
+#real-footer {
+  background: #373b44;
+  height: 10vh;
+  flex-shrink: 0;
+}
+.real-footer-section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 10vh;
+}
+.real-footer-section h3 {
+  font-weight: 100;
+  font-size: 1.2rem;
+  color: #fff;
+  margin: 0;
+}
+.real-footer-section .fab {
+  font-size: 1.5rem;
+  color: #fff;
+}
+.real-footer-section .fab:hover {
+  color: turquoise;
+  transform: rotate(20deg);
+}
+.real-footer-section ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.real-footer-section ul li {
+  list-style: none;
+  text-decoration: none;
+  margin-right: 25%;
+}
+.real-footer-section ul li a {
+  padding: 5%;
+  align-self: center;
+  margin: auto;
 }

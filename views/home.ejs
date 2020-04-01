@@ -1,112 +1,112 @@
 <%- include ("./partials/header")%>
+<div class="all-content">
+  <header id="header">
+    <div class="header-container">
+      <h1>Make your life yours again. List your tasks for the day</h1>
+      <p>"<%=quoteData.myQuote %>" &mdash;<em><%=quoteData.myAuthor %></em></p>
 
-<header id="header">
-  <div class="header-container">
-    <h1>Make your life yours again. List your tasks for the day</h1>
-    <p>"<%=quoteData.myQuote %>" &mdash;<em><%=quoteData.myAuthor %></em></p>
-
-    <form action="/tasks" method="POST" id="info-form">
-      <h4>Enter Task Details</h4>
-      <div class="form-row justify-content-between">
-        <div class="form-group col-md-6">
-          <!-- <label for="inputEmail4">Task Name:</label> -->
-          <input
-            class="form-control"
-            type="text"
-            id="task-name"
-            placeholder="Enter task"
-            name="name"
-            required
-          />
-        </div>
-        <div class="form-group col-md-4">
-          <div class="row justify-content-between">
-            <div class="col-4">
-              <label for="time-to-complete">Due By:</label>
-            </div>
-            <div class="col-8">
-              <input
-                class="form-control"
-                type="time"
-                id="time-to-complete"
-                name="complete"
-                required
-              />
+      <form action="/tasks" method="POST" id="info-form">
+        <h4>Enter Task Details</h4>
+        <div class="form-row justify-content-between">
+          <div class="form-group col-md-6">
+            <!-- <label for="inputEmail4">Task Name:</label> -->
+            <input
+              class="form-control"
+              type="text"
+              id="task-name"
+              placeholder="Enter task"
+              name="name"
+              required
+            />
+          </div>
+          <div class="form-group col-md-4">
+            <div class="row justify-content-between">
+              <div class="col-4">
+                <label for="time-to-complete">Due By:</label>
+              </div>
+              <div class="col-8">
+                <input
+                  class="form-control"
+                  type="time"
+                  id="time-to-complete"
+                  name="complete"
+                  required
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-group">
-        <!-- <label for="exampleFormControlTextarea1">Describe the Task: </label> -->
-        <textarea
-          class="form-control"
-          id="exampleFormControlTextarea1"
-          rows="2"
-          placeholder="Describe the task (100 characters)"
-          maxlength="100"
-          name="description"
-          required
-        ></textarea>
-      </div>
+        <div class="form-group">
+          <!-- <label for="exampleFormControlTextarea1">Describe the Task: </label> -->
+          <textarea
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="2"
+            placeholder="Describe the task (200 characters)"
+            maxlength="200"
+            name="description"
+            required
+          ></textarea>
+        </div>
 
-      <button type="submit" id="first-submit" class="btn btn-info">
-        Add Task
-      </button>
-    </form>
-  </div>
-</header>
+        <button type="submit" id="first-submit" class="btn btn-info">
+          Add Task
+        </button>
+      </form>
+    </div>
+  </header>
 
-<section class="middle-ground">
-  <div class="container">
-    <h2>------TASKS------</h2>
-  </div>
-</section>
+  <section class="middle-ground">
+    <div class="container">
+      <h2>------TASKS------</h2>
+    </div>
+  </section>
 
-<section id="my-tasks">
-  <div class="container">
-    <div class="section-container">
-      <div class="card-columns">
-        <ul>
-          <%tasks.forEach(task=>{ %>
-          <li class="">
-            <script>
-              function getDuration() {
-                let count = "<%=task.complete %>";
-                let countID = "<%=task._id %>";
-                let now = moment().format("HH:mm:ss");
-                let splitTime = now.split(":");
-                let nowHours = parseInt(splitTime[0]);
-                let nowMinutes = parseInt(splitTime[1]);
-                let nowSeconds = parseInt(splitTime[2]);
-                //console.log(nowHours, nowMinutes, nowSeconds);
+  <section id="my-tasks">
+    <div class="container">
+      <div class="section-container">
+        <div class="card-columns">
+          <ul>
+            <%tasks.forEach(task=>{ %>
+            <li class="">
+              <script>
+                function getDuration() {
+                  let count = "<%=task.complete %>";
+                  let countID = "<%=task._id %>";
+                  let now = moment().format("HH:mm:ss");
+                  let splitTime = now.split(":");
+                  let nowHours = parseInt(splitTime[0]);
+                  let nowMinutes = parseInt(splitTime[1]);
+                  let nowSeconds = parseInt(splitTime[2]);
+                  //console.log(nowHours, nowMinutes, nowSeconds);
 
-                let duration = moment.duration({
-                  hours: nowHours,
-                  minutes: nowMinutes,
-                  seconds: nowSeconds
-                });
+                  let duration = moment.duration({
+                    hours: nowHours,
+                    minutes: nowMinutes,
+                    seconds: nowSeconds
+                  });
 
-                let sub = moment(count, "HH:mm")
-                  .subtract(duration)
-                  .format("HH:mm:ss");
+                  let sub = moment(count, "HH:mm")
+                    .subtract(duration)
+                    .format("HH:mm:ss");
 
-                // let splitTim = sub.split(":");
-                // let nowHour = parseInt(splitTim[0]);
-                // let nowMinute = parseInt(splitTim[1]);
-                // let nowSecond = parseInt(splitTim[2]);
+                  // let splitTim = sub.split(":");
+                  // let nowHour = parseInt(splitTim[0]);
+                  // let nowMinute = parseInt(splitTim[1]);
+                  // let nowSecond = parseInt(splitTim[2]);
 
-                // if (nowHour === 00 && nowMinute === 00 && nowSecond === 00) {
-                //   console.log("workingggggg");
-                //   clearInterval(sdf);
-                //}
-                document.getElementById(
-                  countID
-                ).innerHTML = `&mdash; Due In ${sub}`;
-              }
+                  // if (nowHour === 00 && nowMinute === 00 && nowSecond === 00) {
+                  //   console.log("workingggggg");
+                  //   clearInterval(sdf);
+                  //}
+                  document.getElementById(
+                    countID
+                  ).innerHTML = `&mdash; Due In ${sub}`;
+                }
 
-              var sdf = setInterval(getDuration, 1000);
-            </script>
-            <!-- 
+                var sdf = setInterval(getDuration, 1000);
+              </script>
+              <!-- 
             <script>
               function chooseColour() {
                 let colours = ["info", "dark", "light", "secondary"];
@@ -119,43 +119,51 @@
               }
             </script> -->
 
-            <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
-              <div class="card-header"><h4><%=task.name %></h4></div>
+              <div
+                class="card text-white bg-info mb-3"
+                style="max-width: 18rem;"
+              >
+                <div class="card-header"><h4><%=task.name %></h4></div>
 
-              <div class="card-body">
-                <h5 class="card-title due-in" id="<%=task._id%>">
-                  <%=task.duration %>
-                </h5>
-                <div class="card-text">
-                  <%=task.description %>. <br />
+                <div class="card-body">
+                  <h5 class="card-title due-in" id="<%=task._id%>">
+                    <%=task.duration %>
+                  </h5>
+                  <div class="card-text">
+                    <%=task.description %>. <br />
 
-                  <p id="due-time">
-                    &mdash; Due By <%=task.complete %>.
-                  </p>
-                </div>
-                <div
-                  class="edit-and-delete"
-                  style="display: flex; justify-content: space-evenly;"
-                >
-                  <form action="/tasks/<%=task._id %>/edit " method="GET">
-                    <button type="submit" class="btn btn-warning">Edit</button>
-                  </form>
-
-                  <form
-                    action="/tasks/<%=task._id %>?_method=DELETE"
-                    method="POST"
+                    <p id="due-time">
+                      &mdash; Due By <%=task.complete %>.
+                    </p>
+                  </div>
+                  <div
+                    class="edit-and-delete"
+                    style="display: flex; justify-content: space-evenly;"
                   >
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
+                    <form action="/tasks/<%=task._id %>/edit " method="GET">
+                      <button type="submit" class="btn btn-warning">
+                        Edit
+                      </button>
+                    </form>
+
+                    <form
+                      action="/tasks/<%=task._id %>?_method=DELETE"
+                      method="POST"
+                    >
+                      <button type="submit" class="btn btn-danger">
+                        Delete
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
-            </div>
-          </li>
-          <%})%>
-        </ul>
+            </li>
+            <%})%>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 
 <%- include ("./partials/footer")%>

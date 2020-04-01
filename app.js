@@ -5,11 +5,12 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const dotenv = require("dotenv");
-const { port, databaseURL } = require("./config");
+const { envPort, databaseURL } = require("./config");
 dotenv.config();
 const app = express();
 
 let url = databaseURL || "mongodb://127.0.0.1/my_task_app";
+let port = envPort || 8080;
 
 mongoose.connect(url);
 

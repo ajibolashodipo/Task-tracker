@@ -46,39 +46,13 @@ body {
 }
 .mobile-card-column {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
 }
 
-/* media */
-/* 
-@media only screen and (max-width: 576px) {
-  .container {
-    width: 95%;
-  }
-  .main-container {
-    width: 95%;
-  }
+.real-footer-section h3 {
+  font-size: 0.9rem;
+}
 
-  .main-title {
-    font-size: 3rem;
-  }
-
-  .grid-container {
-    grid-template-columns: 100px 100px 100px;
-    grid-template-rows: 100px 100px 100px;
-  }
-
-  button.submit-button {
-    width: 90%;
-  }
-
- 
-
-  .real-footer-section h3 {
-    font-size: 0.9rem;
-  }
-
-  .real-footer-section .fab {
-    font-size: 1.2rem;
-  }
-} */
+.real-footer-section .fab {
+  font-size: 1.2rem;
+}

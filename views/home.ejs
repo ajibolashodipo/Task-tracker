@@ -42,13 +42,14 @@
           class="form-control"
           id="exampleFormControlTextarea1"
           rows="2"
-          placeholder="Describe the task"
+          placeholder="Describe the task (100 characters)"
+          maxlength="100"
           name="description"
           required
         ></textarea>
       </div>
 
-      <button type="submit" id="first-submit" class="btn btn-primary">
+      <button type="submit" id="first-submit" class="btn btn-info">
         Add Task
       </button>
     </form>
@@ -64,63 +65,95 @@
 <section id="my-tasks">
   <div class="container">
     <div class="section-container">
-      <ul>
-        <%tasks.forEach(task=>{ %>
-        <li class="task-container">
-          <h3><%=task.name %></h3>
+      <div class="card-columns">
+        <ul>
+          <%tasks.forEach(task=>{ %>
+          <li class="">
+            <script>
+              function getDuration() {
+                let count = "<%=task.complete %>";
+                let countID = "<%=task._id %>";
+                let now = moment().format("HH:mm:ss");
+                let splitTime = now.split(":");
+                let nowHours = parseInt(splitTime[0]);
+                let nowMinutes = parseInt(splitTime[1]);
+                let nowSeconds = parseInt(splitTime[2]);
+                //console.log(nowHours, nowMinutes, nowSeconds);
 
-          <script>
-            function getDuration() {
-              let count = "<%=task.complete %>";
-              let countID = "<%=task._id %>";
-              let now = moment().format("HH:mm:ss");
-              let splitTime = now.split(":");
-              let nowHours = parseInt(splitTime[0]);
-              let nowMinutes = parseInt(splitTime[1]);
-              let nowSeconds = parseInt(splitTime[2]);
-              //console.log(nowHours, nowMinutes, nowSeconds);
+                let duration = moment.duration({
+                  hours: nowHours,
+                  minutes: nowMinutes,
+                  seconds: nowSeconds
+                });
 
-              let duration = moment.duration({
-                hours: nowHours,
-                minutes: nowMinutes,
-                seconds: nowSeconds
-              });
+                let sub = moment(count, "HH:mm")
+                  .subtract(duration)
+                  .format("HH:mm:ss");
 
-              let sub = moment(count, "HH:mm")
-                .subtract(duration)
-                .format("HH:mm:ss");
+                // let splitTim = sub.split(":");
+                // let nowHour = parseInt(splitTim[0]);
+                // let nowMinute = parseInt(splitTim[1]);
+                // let nowSecond = parseInt(splitTim[2]);
 
-              // let splitTim = sub.split(":");
-              // let nowHour = parseInt(splitTim[0]);
-              // let nowMinute = parseInt(splitTim[1]);
-              // let nowSecond = parseInt(splitTim[2]);
+                // if (nowHour === 00 && nowMinute === 00 && nowSecond === 00) {
+                //   console.log("workingggggg");
+                //   clearInterval(sdf);
+                //}
+                document.getElementById(
+                  countID
+                ).innerHTML = `&mdash; Due In ${sub}`;
+              }
 
-              // if (nowHour === 00 && nowMinute === 00 && nowSecond === 00) {
-              //   console.log("workingggggg");
-              //   clearInterval(sdf);
-              //}
-              document.getElementById(countID).textContent = sub;
-            }
+              var sdf = setInterval(getDuration, 1000);
+            </script>
+            <!-- 
+            <script>
+              function chooseColour() {
+                let colours = ["info", "dark", "light", "secondary"];
+                let luckyNumber = Math.floor(
+                  Math.random() * colours.length + 1
+                );
 
-            var sdf = setInterval(getDuration, 1000);
-          </script>
+                let chosenColour = colours[luckyNumber];
+                return chosenColour;
+              }
+            </script> -->
 
-          <p>
-            <%=task.description %>. Due By <%=task.complete %>. That's in
-            exactly
-            <span id="<%=task._id%>"><%=task.duration %></span>
-          </p>
+            <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+              <div class="card-header"><h4><%=task.name %></h4></div>
 
-          <form action="/tasks/<%=task._id %>/edit " method="GET">
-            <button type="submit" class="btn btn-warning">Edit</button>
-          </form>
+              <div class="card-body">
+                <h5 class="card-title due-in" id="<%=task._id%>">
+                  <%=task.duration %>
+                </h5>
+                <div class="card-text">
+                  <%=task.description %>. <br />
 
-          <form action="/tasks/<%=task._id %>?_method=DELETE" method="POST">
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
-        </li>
-        <%})%>
-      </ul>
+                  <p id="due-time">
+                    &mdash; Due By <%=task.complete %>.
+                  </p>
+                </div>
+                <div
+                  class="edit-and-delete"
+                  style="display: flex; justify-content: space-evenly;"
+                >
+                  <form action="/tasks/<%=task._id %>/edit " method="GET">
+                    <button type="submit" class="btn btn-warning">Edit</button>
+                  </form>
+
+                  <form
+                    action="/tasks/<%=task._id %>?_method=DELETE"
+                    method="POST"
+                  >
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </li>
+          <%})%>
+        </ul>
+      </div>
     </div>
   </div>
 </section>

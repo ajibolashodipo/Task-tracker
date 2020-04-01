@@ -102,7 +102,7 @@ app.post("/tasks", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(task);
+      // console.log(task);
       res.redirect("/");
     }
   });

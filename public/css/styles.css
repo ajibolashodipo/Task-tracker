@@ -15,11 +15,12 @@ body {
   font-family: "Manjari", sans-serif;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.4)),
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4)),
     url(../img/fourth.png);
   /* flex: 1 0 auto; */
 }
 
+/* utility classes */
 .all-content {
   flex: 1 0 auto;
 }
@@ -27,24 +28,6 @@ ul {
   padding: 0;
   margin: 0;
   list-style-type: none;
-}
-
-#first-submit {
-  margin-bottom: 0.5%;
-  width: 100% !important;
-  padding: 2%;
-}
-.header-container {
-  width: 60%;
-  margin: 2% auto;
-  /* padding-top: 2.5%; */
-  border-radius: 10px;
-  text-align: center;
-}
-.section-container {
-  margin: 2% auto;
-
-  /* border: 1px solid green; */
 }
 .container {
   width: 60%;
@@ -54,6 +37,37 @@ ul {
   text-align: center;
 }
 
+/* header section */
+.header-container {
+  width: 60%;
+  margin: 2% auto;
+  /* padding-top: 2.5%; */
+  border-radius: 10px;
+  text-align: center;
+}
+
+.header-container h1 {
+  /* color: #f0ad4e; */
+  font-size: 4rem;
+  font-weight: bolder;
+}
+.alternative-quote {
+  display: none;
+}
+
+#first-submit {
+  margin-bottom: 0.5%;
+  width: 100% !important;
+  padding: 2%;
+}
+
+/* other section */
+.section-container {
+  margin: 2% auto;
+
+  /* border: 1px solid green; */
+}
+
 .task-container {
   width: 95%;
   margin: 2% auto;
@@ -61,15 +75,26 @@ ul {
   border-radius: 10px;
 }
 
-/* .card-title {
-  border: 1px solid black;
-  border-radius: 5px;
-  display: flex;
-  width: 40%;
-  margin: 1% auto;
-  padding: 1px;
+.tasks-parent {
+  /* border: 1px solid red; */
+  color: black;
+  font-weight: bolder;
+  /* padding: 1%; */
+  /* background-color: rgba(56, 223, 22, 0.89); */
+  /* swidth: 30%; */
+  /* display: none; */
+}
+
+.tasks-child-mobile {
+  display: none;
+}
+
+.edit-form-container {
+  width: 60%;
+  margin: 7.5% auto;
+  border-radius: 10px;
   text-align: center;
-} */
+}
 
 #due-time {
   font-family: "Cormorant Garamond", serif;

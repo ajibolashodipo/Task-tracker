@@ -2,8 +2,15 @@
 <div class="all-content">
   <header id="header">
     <div class="header-container">
-      <h1>Make your life yours again. List your tasks for the day</h1>
-      <p>"<%=quoteData.myQuote %>" &mdash;<em><%=quoteData.myAuthor %></em></p>
+      <h1 class="main-title">Task Tracker</h1>
+      <p class="main-quote">
+        "<%=quoteData.myQuote %>" &mdash;<em><%=quoteData.myAuthor %></em>
+      </p>
+      <p class="alternative-quote">
+        "For every minute spent organizing, an hour is earned"&mdash;<em
+          >Benjamin Franklin</em
+        >
+      </p>
 
       <form action="/tasks" method="POST" id="info-form">
         <h4>Enter Task Details</h4>
@@ -56,16 +63,20 @@
     </div>
   </header>
 
+  <%if (tasks.length > 0) { %>
   <section class="middle-ground">
-    <div class="container">
-      <h2>------TASKS------</h2>
+    <div class=" tasks-parent container">
+      <h2 class="tasks-child">--------TASKS--------</h2>
+      <h2 class="tasks-child-mobile">---TASKS---</h2>
     </div>
   </section>
+  <% } %>
 
   <section id="my-tasks">
     <div class="container">
       <div class="section-container">
-        <div class="card-columns">
+        <div class="card-columns mobile-card-column ">
+        <div class="card-columns mobile-card-column ">
           <ul>
             <%tasks.forEach(task=>{ %>
             <li class="">
@@ -120,7 +131,7 @@
             </script> -->
 
               <div
-                class="card text-white bg-info mb-3"
+                class="card card-grid-mobile text-white bg-info mb-3"
                 style="max-width: 18rem;"
               >
                 <div class="card-header"><h4><%=task.name %></h4></div>

@@ -1,0 +1,84 @@
+body {
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2)),
+    url(../img/fourth.png);
+  /* flex: 1 0 auto; */
+}
+
+.container {
+  width: 95%;
+}
+
+.header-container h1 {
+  margin-top: 20%;
+  font-size: 3rem;
+  /* color: red; */
+}
+
+.main-quote {
+  display: none;
+}
+.alternative-quote {
+  display: block;
+}
+
+.header-container {
+  width: 80%;
+}
+
+.tasks-child {
+  display: none;
+}
+.tasks-child-mobile {
+  display: block;
+  margin-top: 10%;
+  /* color: #5bc0de; */
+  color: black;
+}
+
+.card-grid-mobile {
+  width: 100%;
+}
+
+.edit-form-container {
+  margin-top: 30%;
+  padding: 0;
+  width: 80%;
+}
+.mobile-card-column {
+  display: flex;
+  justify-content: center; 
+}
+
+/* media */
+/* 
+@media only screen and (max-width: 576px) {
+  .container {
+    width: 95%;
+  }
+  .main-container {
+    width: 95%;
+  }
+
+  .main-title {
+    font-size: 3rem;
+  }
+
+  .grid-container {
+    grid-template-columns: 100px 100px 100px;
+    grid-template-rows: 100px 100px 100px;
+  }
+
+  button.submit-button {
+    width: 90%;
+  }
+
+ 
+
+  .real-footer-section h3 {
+    font-size: 0.9rem;
+  }
+
+  .real-footer-section .fab {
+    font-size: 1.2rem;
+  }
+} */

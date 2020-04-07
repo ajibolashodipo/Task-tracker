@@ -4,7 +4,10 @@
     <div class="edit-form-container">
       <h1>Edit <%=update.name %></h1>
 
-      <form action="/tasks/<%=update._id %>?_method=PUT" method="POST">
+      <form
+        action="/users/<%=userID%>/tasks/<%=update._id%>?_method=PUT"
+        method="POST"
+      >
         <div class="form-row justify-content-between">
           <div class="form-group col-md-6">
             <!-- <label for="inputEmail4">Task Name:</label> -->

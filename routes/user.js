@@ -2,10 +2,17 @@ const express = require("express");
 //const app = express();
 const axios = require("axios");
 const methodOverride = require("method-override");
+const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const moment = require("moment");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const passportLocalMongoose = require("passport-local-mongoose");
+const expressSession = require("express-session");
+const isLoggedIn = require("../middleware/isLoggedIn");
 const Task = require("../models/Tasks");
 const User = require("../models/Users");
+const { ensureAuthenticated } = require("../authConfig/authGuard");
 
 const router = express.Router();
 
@@ -37,7 +44,7 @@ async function getQuote() {
   };
 }
 
-router.get("/:username/tasks", async (req, res) => {
+router.get("/:username/tasks", ensureAuthenticated, async (req, res) => {
   const quoteData = await getQuote();
   //console.log(req.params);
   let userID = req.params.username;
@@ -51,7 +58,7 @@ router.get("/:username/tasks", async (req, res) => {
 });
 
 //post route
-router.post("/:username/tasks", (req, res) => {
+router.post("/:username/tasks", ensureAuthenticated, (req, res) => {
   //console.log("SHITTY MEN");
   const formDetail = {
     name: req.body.name,
@@ -105,7 +112,7 @@ router.post("/:username/tasks", (req, res) => {
   });
 });
 //edit
-router.get("/:username/tasks/:taskID/edit", (req, res) => {
+router.get("/:username/tasks/:taskID/edit", ensureAuthenticated, (req, res) => {
   let userID = req.params.username;
   let id = mongoose.Types.ObjectId(req.params.taskID);
 
@@ -132,7 +139,7 @@ router.get("/:username/tasks/:taskID/edit", (req, res) => {
 });
 
 //update
-router.put("/:username/tasks/:taskID", (req, res) => {
+router.put("/:username/tasks/:taskID", ensureAuthenticated, (req, res) => {
   let id = mongoose.Types.ObjectId(req.params.taskID);
   const formDetail = {
     name: req.body.name,
@@ -153,7 +160,7 @@ router.put("/:username/tasks/:taskID", (req, res) => {
   //res.send("ajibolaa");
 });
 
-router.delete("/:username/tasks/:taskID", (req, res) => {
+router.delete("/:username/tasks/:taskID", ensureAuthenticated, (req, res) => {
   let id = mongoose.Types.ObjectId(req.params.taskID);
   Task.findOneAndDelete({ _id: id }, (err) => {
     if (err) {

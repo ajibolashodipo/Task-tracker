@@ -18,6 +18,9 @@ body {
     url(../img/fourth.png);
   /* flex: 1 0 auto; */
 }
+#site-title {
+  font-size: 1.5rem;
+}
 
 /* utility classes */
 .all-content {

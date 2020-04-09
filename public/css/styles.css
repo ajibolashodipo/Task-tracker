@@ -49,8 +49,19 @@ ul {
   font-size: 4rem;
   font-weight: bolder;
 }
-.alternative-quote {
-  display: none;
+
+.index-auth-container {
+  width: 30%;
+  margin: 5% auto;
+  padding: 5%;
+  /* border: 2px solid red; */
+  /* background-color: coral; */
+  background-color: rgba(56, 223, 22, 0.89);
+  border-radius: 20px;
+  text-align: center;
+}
+.index-addendum {
+  margin-top: 2.5%;
 }
 
 #first-submit {
@@ -124,14 +135,14 @@ ul {
 
 #real-footer {
   background: #373b44;
-  height: 10vh;
+  height: 8vh;
   flex-shrink: 0;
 }
 .real-footer-section {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 10vh;
+  height: 8vh;
 }
 .real-footer-section h3 {
   font-weight: 100;

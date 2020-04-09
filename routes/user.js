@@ -1,15 +1,15 @@
 const express = require("express");
 //const app = express();
 const axios = require("axios");
-const methodOverride = require("method-override");
+//const methodOverride = require("method-override");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const moment = require("moment");
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const passportLocalMongoose = require("passport-local-mongoose");
-const expressSession = require("express-session");
-const isLoggedIn = require("../middleware/isLoggedIn");
+// const passport = require("passport");
+// const LocalStrategy = require("passport-local");
+// const passportLocalMongoose = require("passport-local-mongoose");
+// const expressSession = require("express-session");
+// const isLoggedIn = require("../middleware/isLoggedIn");
 const Task = require("../models/Tasks");
 const User = require("../models/Users");
 const { ensureAuthenticated } = require("../authConfig/authGuard");
@@ -66,28 +66,6 @@ router.post("/:username/tasks", ensureAuthenticated, (req, res) => {
     complete: req.body.complete,
     duration: getDuration(req.body.complete),
   };
-  //console.log(formDetail);
-  // Task.create(formDetail, async (err, task) => {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     try {
-  //       let foundUser = await User.find({
-  //         username: req.params.username,
-  //       }).exec();
-  //       //await console.log(task);
-  //       //await console.log(foundUser);
-  //       let pushUser = await foundUser.tasks.push(task);
-  //       let savedUser = await pushUser.save();
-
-  //       await console.log(pushUser);
-
-  //       res.redirect("/users/" + req.params.username + "/tasks");
-  //     } catch (e) {
-  //       res.send("an error occurred");
-  //     }
-  //   }
-  // });
 
   Task.create(formDetail, (err, task) => {
     if (err) {

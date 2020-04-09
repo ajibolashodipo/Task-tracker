@@ -2,18 +2,15 @@
 <div class="all-content">
   <header id="header">
     <div class="header-container">
-      <h1 class="main-title">Task Tracker</h1>
+      <!-- <h1 class="main-title">Task Tracker</h1> -->
       <p class="main-quote">
-        "<%=quoteData.myQuote %>" &mdash;<em><%=quoteData.myAuthor %></em>
-      </p>
-      <p class="alternative-quote">
         "For every minute spent organizing, an hour is earned"&mdash;<em
           >Benjamin Franklin</em
         >
       </p>
 
       <form action="/users/<%=userID%>/tasks" method="POST" id="info-form">
-        <h4 class="task-details">Enter Task Details</h4>
+        <h2 class="task-details">Enter Task Details</h2>
         <div class="form-row justify-content-between">
           <div class="form-group col-md-6">
             <!-- <label for="inputEmail4">Task Name:</label> -->
@@ -63,7 +60,7 @@
     </div>
   </header>
 
-  <%if (myUser.tasks) { %>
+  <%if (myUser.tasks && myUser.tasks.length) { %>
   <section class="middle-ground">
     <div class="tasks-parent container">
       <h2 class="tasks-child">--------TASKS--------</h2>

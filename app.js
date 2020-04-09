@@ -30,7 +30,10 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
-app.use(bodyParser.urlencoded({ extended: false }));
+
+//remember false is default in the urlencoded.
+
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 //express-session
@@ -61,17 +64,6 @@ app.use((req, res, next) => {
 //routes
 app.use("/", indexRoute);
 app.use("/users", userRoute);
-
-//app.use(bodyParser.json());
-
-//schema
-
-// User.create({
-//   username: "shaddy@gmail.com",
-//   password: "dollar",
-// });
-
-// Task.create({});
 
 app.listen(port, () => {
   console.log(`server ti bere lori port ${port}`);

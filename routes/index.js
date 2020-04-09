@@ -9,8 +9,36 @@ const expressSession = require("express-session");
 const User = require("../models/Users");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.render("landing");
+function getQuote() {
+  axios
+    .get("https://favqs.com/api/qotd")
+    .then(function (response) {
+      return {
+        author: response.data.quote.author,
+        quote: response.data.quote.body,
+      };
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    });
+}
+
+async function getQuote() {
+  const response = await axios.get("https://favqs.com/api/qotd");
+
+  const { author, body } = response.data.quote;
+
+  return {
+    myAuthor: author,
+    myQuote: body,
+  };
+}
+
+router.get("/", async (req, res) => {
+  const quoteData = await getQuote();
+
+  res.render("landing", { quoteData });
 });
 
 //show sign up form
@@ -54,66 +82,19 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.post(
-  "/login",
+// Login Brad Traversy
+router.post("/login", (req, res, next) => {
   passport.authenticate("local", {
-    successRedirect: "/",
+    successRedirect: "/users/" + req.body.username + "/tasks",
     failureRedirect: "/login",
     failureFlash: true,
-  })
-);
-
-// router.post("/login", function (req, res, next) {
-//   passport.authenticate("local", function (err, user, info) {
-//     console.log(req.body.username);
-//     if (err) {
-//       return next(err);
-//     }
-//     if (!user) {
-//       return res.redirect("/");
-//     }
-//     req.logIn(user, function (err) {
-//       if (err) {
-//         return next(err);
-//       }
-//       return res.redirect("/users/" + user.username + "/tasks");
-//     });
-//   })(req, res, next);
-// });
-
-//login simplified
-// router.post(
-//   "/login",
-//   passport.authenticate("local", { failureRedirect: "/" }),
-//   function (req, res) {
-//     res.redirect("/");
-//     // res.redirect("/users/" + req.body.username + "/tasks");
-//   }
-// );
-
-// Login Brad Traversy
-// router.post("/login", (req, res, next) => {
-//   passport.authenticate("local", {
-//     successRedirect: "/users/" + req.body.username + "/tasks",
-//     failureRedirect: "/login",
-//     failureFlash: true,
-//   })(req, res, next);
-// });
-
-// router.post("/login", (req, res) => {
-//   let pseudo = req.body.username;
-//   // let pseudo = "5e8b2e0d2e157323748cf29a";
-
-//   //res.send("login accepted");
-//   res.redirect("/users/" + pseudo + "/tasks");
-// });
+  })(req, res, next);
+});
 
 //logout
 router.get("/logout", function (req, res) {
   req.logout(); //logs them out via passport
   res.redirect("/login");
 });
-
-//LOGIN Handle
 
 module.exports = router;

@@ -8,18 +8,24 @@ body {
   width: 95%;
 }
 
-.header-container h1 {
+.header-container p {
   margin-top: 20%;
-  font-size: 3rem;
+  /* font-size: 3rem; */
   /* color: red; */
 }
 
-.main-quote {
-  display: none;
+.index-auth-container {
+  margin-top: 20% !important;
+  width: 80%;
+  margin: 5% auto;
 }
-.alternative-quote {
+
+.landing-page-div {
+  margin-top: 20%;
+}
+/* .alternative-quote {
   display: block;
-}
+} */
 
 .header-container {
   width: 80%;

@@ -44,7 +44,17 @@
     <nav
       class="navbar navbar-expand-lg justify-content-between navbar-dark bg-dark"
     >
+      <%if(!currentUser){ %>
       <a class="navbar-brand" id="site-title" href="/"> Track-my-Tasks</a>
+      <%} else {%>
+      <a
+        class="navbar-brand"
+        id="site-title"
+        href="/users/<%=currentUser.username %>/tasks"
+      >
+        Track-my-Tasks</a
+      >
+      <%}%>
       <button
         class="navbar-toggler"
         type="button"

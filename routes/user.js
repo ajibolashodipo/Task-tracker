@@ -9,6 +9,7 @@ const router = express.Router();
 router.get("/:username/tasks", ensureAuthenticated, async (req, res) => {
   try {
     let userID = req.params.username;
+    // console.log(req.user);
     const myUser = await User.findOne({ username: userID })
       .populate("tasks")
       .exec();

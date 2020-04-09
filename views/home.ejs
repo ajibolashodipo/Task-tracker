@@ -2,6 +2,7 @@
 <div class="all-content">
   <header id="header">
     <div class="header-container">
+      <%- include ("./partials/flash")%>
       <!-- <h1 class="main-title">Task Tracker</h1> -->
       <p class="main-quote">
         "For every minute spent organizing, an hour is earned"&mdash;<em
@@ -60,7 +61,7 @@
     </div>
   </header>
 
-  <%if (myUser.tasks && myUser.tasks.length) { %>
+  <%if (myUser) { %>
   <section class="middle-ground">
     <div class="tasks-parent container">
       <h2 class="tasks-child">--------TASKS--------</h2>

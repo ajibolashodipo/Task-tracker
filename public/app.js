@@ -1,4 +1,3 @@
-
 // const futureTime = dodhdhcument.getElementById("time-to-complete");
 // const taskName = document.getElementById("task-name");
 // const firstSubmit = document.querySelector("#first-submit");
@@ -6,8 +5,6 @@
 // const info = document.querySelector("#test");
 // let splitTime;
 //get data and split it from form. embed it inside duration
-
-
 
 //  <script>
 //         setInterval(function() {
@@ -41,3 +38,4 @@
 //           document.getElementById(countID).textContent = sub;
 //         }, 1000);
 //       </script>
+

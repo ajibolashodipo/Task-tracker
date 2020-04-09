@@ -1,6 +1,4 @@
 const express = require("express");
-const axios = require("axios");
-const bcrypt = require("bcryptjs");
 const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const passport = require("passport");
@@ -8,14 +6,11 @@ const LocalStrategy = require("passport-local");
 //const passportLocalMongoose = require("passport-local-mongoose");
 const session = require("express-session");
 const mongoose = require("mongoose");
-const moment = require("moment");
 const dotenv = require("dotenv");
 const indexRoute = require("./routes/index");
 const userRoute = require("./routes/user");
 const flash = require("connect-flash");
-const User = require("./models/Users");
 const passportConfig = require("./authConfig/passportConfig");
-
 const { envPort, databaseURL } = require("./config");
 dotenv.config();
 const app = express();
@@ -26,14 +21,18 @@ passportConfig(passport);
 let url = databaseURL || "mongodb://127.0.0.1/my_task_app";
 let port = envPort || 8080;
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+});
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
 //remember false is default in the urlencoded.
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 
 //express-session
@@ -46,11 +45,6 @@ app.use(
   })
 );
 
-//Passport middleware..put passport shit after express-session middleware
-// code to set up passport to work in our app -> THESE TWO METHODS/LINES ARE REQUIRED EVERY TIME
-app.use(passport.initialize());
-app.use(passport.session());
-
 //connect flash
 app.use(flash());
 
@@ -58,9 +52,15 @@ app.use(flash());
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.success_msg = req.flash("success_msg");
-  res.locals.erros_msg = req.flash("error_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
   next();
 });
+
+//Passport middleware..put passport shit after express-session middleware
+// code to set up passport to work in our app -> THESE TWO METHODS/LINES ARE REQUIRED EVERY TIME
+app.use(passport.initialize());
+app.use(passport.session());
 
 //routes
 app.use("/", indexRoute);

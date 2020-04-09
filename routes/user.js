@@ -1,39 +1,26 @@
 const express = require("express");
-//const app = express();
-const axios = require("axios");
-//const methodOverride = require("method-override");
-const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const moment = require("moment");
-// const passport = require("passport");
-// const LocalStrategy = require("passport-local");
-// const passportLocalMongoose = require("passport-local-mongoose");
-// const expressSession = require("express-session");
-// const isLoggedIn = require("../middleware/isLoggedIn");
 const Task = require("../models/Tasks");
 const User = require("../models/Users");
 const { ensureAuthenticated } = require("../authConfig/authGuard");
-
 const router = express.Router();
 
-//app.use(methodOverride("_method"));
-
 router.get("/:username/tasks", ensureAuthenticated, async (req, res) => {
-  // const quoteData = await getQuote();
-  //console.log(req.params);
-  let userID = req.params.username;
-
-  const myUser = await User.findOne({ username: userID })
-    .populate("tasks")
-    .exec();
-  // await console.log(myUser);
-
-  res.render("home", { userID, myUser });
+  try {
+    let userID = req.params.username;
+    const myUser = await User.findOne({ username: userID })
+      .populate("tasks")
+      .exec();
+    res.render("home", { userID, myUser });
+  } catch (err) {
+    req.flash("error_msg", "An error occurred. Try again");
+    res.redirect("/login");
+  }
 });
 
 //post route
 router.post("/:username/tasks", ensureAuthenticated, (req, res) => {
-  //console.log("SHITTY MEN");
   const formDetail = {
     name: req.body.name,
     description: req.body.description,
@@ -43,18 +30,22 @@ router.post("/:username/tasks", ensureAuthenticated, (req, res) => {
 
   Task.create(formDetail, (err, task) => {
     if (err) {
-      console.log(err);
+      // console.log(err);
+      req.flash("error_msg", "An error occurred. Try again");
+      res.redirect("/users/" + req.params.username + "/tasks");
     } else {
       User.findOne({ username: req.params.username }, (err, foundUser) => {
         if (err) {
-          console.log(err);
+          req.flash("error_msg", "An error occurred. Try again");
+          res.redirect("/users/" + req.params.username + "/tasks");
         } else {
           foundUser.tasks.push(task);
           foundUser.save((err, data) => {
             if (err) {
-              console.log(err);
+              // console.log(err);
             } else {
-              console.log(data);
+              //console.log(data);
+              req.flash("success_msg", "Task Added Successfully");
               res.redirect("/users/" + req.params.username + "/tasks");
             }
           });
@@ -68,13 +59,11 @@ router.get("/:username/tasks/:taskID/edit", ensureAuthenticated, (req, res) => {
   let userID = req.params.username;
   let id = mongoose.Types.ObjectId(req.params.taskID);
 
-  // console.log(typeof taskID);
-  //res.send("ajibola");
   Task.findOne({ _id: id }, (err, data) => {
     if (err) {
-      console.log(err);
+      req.flash("error_msg", "An error occurred. Try again");
+      res.redirect("/users/" + req.params.username + "/tasks");
     } else {
-      // console.log(data);
       res.render("edit", { update: data, userID: userID, taskID: id });
     }
   });
@@ -92,25 +81,30 @@ router.put("/:username/tasks/:taskID", ensureAuthenticated, (req, res) => {
   console.log(formDetail);
   Task.findByIdAndUpdate(id, formDetail, (err, updatedTask) => {
     if (err) {
-      console.log(err);
+      req.flash("error_msg", "An error occurred. Try again");
+      res.redirect("/users/" + req.params.username + "/tasks");
     } else {
-      //console.log(updatedTask);
+      req.flash("success_msg", "Task Updated Successfully");
       res.redirect("/users/" + req.params.username + "/tasks");
     }
   });
-  // console.log("shittyyyy");
-  //res.send("ajibolaa");
 });
 
 router.delete("/:username/tasks/:taskID", ensureAuthenticated, (req, res) => {
   let id = mongoose.Types.ObjectId(req.params.taskID);
   Task.findOneAndDelete({ _id: id }, (err) => {
     if (err) {
-      console.log(err);
+      req.flash("error_msg", "Could not delete task. Try again");
+      res.redirect("/users/" + req.params.username + "/tasks");
+      return;
     }
+
+    //remove id from User model
+    //to be implemented soon
+
+    req.flash("success_msg", "Task Deleted Successfully");
     res.redirect("/users/" + req.params.username + "/tasks");
   });
-  //res.send("fridayyyy");
 });
 
 function getDuration(time) {
@@ -129,7 +123,6 @@ function getDuration(time) {
   //
   console.log(sub);
   return sub;
-  //e.preventDefault();
 }
 
 module.exports = router;

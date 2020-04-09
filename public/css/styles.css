@@ -2,9 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Manjari", sans-serif;
-
-  /* font-family: 'Baskervville', serif; */
+  /* font-family: "Manjari", sans-serif; */
+  font-family: "Courier";
 }
 html {
   height: 100%;

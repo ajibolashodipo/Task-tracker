@@ -2,8 +2,6 @@ const express = require("express");
 const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
-//const passportLocalMongoose = require("passport-local-mongoose");
 const session = require("express-session");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -48,7 +46,12 @@ app.use(
 //connect flash
 app.use(flash());
 
-//global variables
+//Passport middleware..add these lines after express-session middleware. Pretty important
+app.use(passport.initialize());
+app.use(passport.session());
+
+//global variables.
+//Place req.user after passport initialization though
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   res.locals.success_msg = req.flash("success_msg");
@@ -56,11 +59,6 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   next();
 });
-
-//Passport middleware..put passport shit after express-session middleware
-// code to set up passport to work in our app -> THESE TWO METHODS/LINES ARE REQUIRED EVERY TIME
-app.use(passport.initialize());
-app.use(passport.session());
 
 //routes
 app.use("/", indexRoute);

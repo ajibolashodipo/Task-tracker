@@ -8,8 +8,14 @@
   /* color: red; */
 }
 
-.landing-page-div {
-  margin-top: 10%;
+.landing-container {
+  width: 80%;
+  margin: 15% auto;
+  text-align: center;
+}
+.landing-page-div h1 {
+  font-size: 3.5rem;
+  font-weight: bolder;
 }
 
 .index-auth-container {

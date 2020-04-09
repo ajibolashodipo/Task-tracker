@@ -20,9 +20,19 @@ body {
   margin: 5% auto;
 }
 
-.landing-page-div {
-  margin-top: 20%;
+.landing-container {
+  width: 80%;
+  margin: 25% auto;
+  text-align: center;
 }
+.landing-page-div h1 {
+  font-size: 3rem;
+  font-weight: bolder;
+}
+
+/* .landing-page-div {
+  margin-top: 20%;
+} */
 /* .alternative-quote {
   display: block;
 } */

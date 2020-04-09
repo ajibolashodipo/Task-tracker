@@ -9,36 +9,37 @@ const expressSession = require("express-session");
 const User = require("../models/Users");
 const router = express.Router();
 
-function getQuote() {
-  axios
-    .get("https://favqs.com/api/qotd")
-    .then(function (response) {
-      return {
-        author: response.data.quote.author,
-        quote: response.data.quote.body,
-      };
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    });
-}
+// function getQuote() {
+//   axios
+//     .get("https://favqs.com/api/qotd")
+//     .then(function (response) {
+//       return {
+//         author: response.data.quote.author,
+//         quote: response.data.quote.body,
+//       };
+//     })
+//     .catch(function (error) {
+//       // handle error
+//       console.log(error);
+//     });
+// }
 
-async function getQuote() {
-  const response = await axios.get("https://favqs.com/api/qotd");
+// async function getQuote() {
+//   const response = await axios.get("https://favqs.com/api/qotd");
 
-  const { author, body } = response.data.quote;
+//   const { author, body } = response.data.quote;
 
-  return {
-    myAuthor: author,
-    myQuote: body,
-  };
-}
+//   return {
+//     myAuthor: author,
+//     myQuote: body,
+//   };
+// }
 
-router.get("/", async (req, res) => {
-  const quoteData = await getQuote();
+router.get("/", (req, res) => {
+  //console.log(req.user);
+  // const quoteData = await getQuote();
 
-  res.render("landing", { quoteData });
+  res.render("landing");
 });
 
 //show sign up form

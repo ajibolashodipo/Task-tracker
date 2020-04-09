@@ -18,34 +18,8 @@ const router = express.Router();
 
 //app.use(methodOverride("_method"));
 
-function getQuote() {
-  axios
-    .get("https://favqs.com/api/qotd")
-    .then(function (response) {
-      return {
-        author: response.data.quote.author,
-        quote: response.data.quote.body,
-      };
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    });
-}
-
-async function getQuote() {
-  const response = await axios.get("https://favqs.com/api/qotd");
-
-  const { author, body } = response.data.quote;
-
-  return {
-    myAuthor: author,
-    myQuote: body,
-  };
-}
-
 router.get("/:username/tasks", ensureAuthenticated, async (req, res) => {
-  const quoteData = await getQuote();
+  // const quoteData = await getQuote();
   //console.log(req.params);
   let userID = req.params.username;
 
@@ -54,7 +28,7 @@ router.get("/:username/tasks", ensureAuthenticated, async (req, res) => {
     .exec();
   // await console.log(myUser);
 
-  res.render("home", { userID, myUser, quoteData });
+  res.render("home", { userID, myUser });
 });
 
 //post route
@@ -104,16 +78,6 @@ router.get("/:username/tasks/:taskID/edit", ensureAuthenticated, (req, res) => {
       res.render("edit", { update: data, userID: userID, taskID: id });
     }
   });
-
-  // User.findOne({ username: userID })
-  //   .populate("tasks")
-  //   .exec((err, data) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       res.render("edit", { update: data, userID: userID, taskID: taskID });
-  //     }
-  //   });
 });
 
 //update

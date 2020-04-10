@@ -72,53 +72,133 @@
   <section id="my-tasks">
     <div class="container">
       <div class="section-container">
-        <!-- <div class="card-columns mobile-card-column "> -->
         <div class="card-columns mobile-card-column">
           <ul>
             <%myUser.tasks.forEach(task=>{ %>
+
+            <!-- Modal -->
+            <section class="my-modal">
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="my-modal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">
+                        Task Update
+                      </h5>
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p class="modal-character"></p>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ////////////////// -->
             <li class="">
               <script>
-                function getDuration() {
-                  let count = "<%=task.complete %>";
-                  let countID = "<%=task._id %>";
-                  let now = moment().format("HH:mm:ss");
-                  let splitTime = now.split(":");
-                  let nowHours = parseInt(splitTime[0]);
-                  let nowMinutes = parseInt(splitTime[1]);
-                  let nowSeconds = parseInt(splitTime[2]);
-                  //console.log(nowHours, nowMinutes, nowSeconds);
+                function countDown() {
+                  function getDuration() {
+                    let count = "<%=task.complete %>";
+                    let taskName = "<%=task.name %>";
+                    let countID = "<%=task._id %>";
+                    let now = moment().format("HH:mm:ss");
+                    let splitTime = now.split(":");
+                    let nowHours = parseInt(splitTime[0]);
+                    let nowMinutes = parseInt(splitTime[1]);
+                    let nowSeconds = parseInt(splitTime[2]);
+                    //console.log(nowHours, nowMinutes, nowSeconds);
 
-                  let duration = moment.duration({
-                    hours: nowHours,
-                    minutes: nowMinutes,
-                    seconds: nowSeconds,
-                  });
+                    let duration = moment.duration({
+                      hours: nowHours,
+                      minutes: nowMinutes,
+                      seconds: nowSeconds,
+                    });
 
-                  let sub = moment(count, "HH:mm")
-                    .subtract(duration)
-                    .format("HH:mm:ss");
+                    let sub = moment(count, "HH:mm")
+                      .subtract(duration)
+                      .format("HH:mm:ss");
 
-                  let splitTim = sub.split(":");
-                  let nowHour = parseInt(splitTim[0]);
-                  let nowMinute = parseInt(splitTim[1]);
-                  let nowSecond = parseInt(splitTim[2]);
+                    let splitTim = sub.split(":");
+                    let nowHour = parseInt(splitTim[0]);
+                    let nowMinute = parseInt(splitTim[1]);
+                    let nowSecond = parseInt(splitTim[2]);
 
-                  // console.log(`${nowHour}: ${nowMinute}: ${nowSecond}`);
-                  if (nowSecond === 00 && nowHour === 00 && nowMinute === 00) {
-                    // console.log("workingggggg");
-                    // console.log(countID);
-                    clearInterval(sdf);
+                    //countdown validation. compare db time and current time
+
+                    //convert db time to a 6 digit number
+                    const myaddendum = ":00";
+                    let concatCount = count.concat(myaddendum);
+                    let midVal = concatCount.replace(/:/g, "");
+                    //db time as an integer value
+                    let countInt = parseInt(midVal);
+
+                    //convert current time to a 6 digit number
+                    let momentVal = now.replace(/:/g, "");
+                    let momentInt = parseInt(momentVal);
+
+                    //checks for when the exact time is due
+                    if (
+                      nowSecond === 00 &&
+                      nowHour === 00 &&
+                      nowMinute === 00
+                    ) {
+                      clearInterval(sdf);
+                      document.getElementById(
+                        countID
+                      ).innerHTML = `&mdash; Time Up`;
+
+                      $(".modal-character").html(
+                        `${taskName} which was set to be completed by ${count} is due`
+                      );
+                      $("#my-modal").modal("show");
+                      
+
+                      return;
+                    }
+
+                    //compare DB time with current time
+                    if (!(countInt > momentInt)) {
+                      clearInterval(sdf);
+                      document.getElementById(
+                        countID
+                      ).innerHTML = `&mdash; Due time has passed`;
+
+                      return;
+                    }
+
                     document.getElementById(
                       countID
-                    ).innerHTML = `&mdash; Time Up`;
-
-                    return;
+                    ).innerHTML = `&mdash; Due In ${sub}`;
                   }
-                  document.getElementById(
-                    countID
-                  ).innerHTML = `&mdash; Due In ${sub}`;
+                  const sdf = setInterval(getDuration, 1000);
                 }
-                var sdf = setInterval(getDuration, 1000);
+                countDown();
               </script>
 
               <div

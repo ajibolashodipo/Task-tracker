@@ -79,7 +79,7 @@ router.put("/:username/tasks/:taskID", ensureAuthenticated, (req, res) => {
     complete: req.body.complete,
     duration: getDuration(req.body.complete),
   };
-  console.log(formDetail);
+
   Task.findByIdAndUpdate(id, formDetail, (err, updatedTask) => {
     if (err) {
       req.flash("error_msg", "An error occurred. Try again");
@@ -121,8 +121,6 @@ function getDuration(time) {
     seconds: nowSeconds,
   });
   let sub = moment(time, "HH:mm").subtract(duration).format("HH:mm:ss");
-  //
-  console.log(sub);
   return sub;
 }
 
